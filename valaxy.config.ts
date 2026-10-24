@@ -4,10 +4,10 @@ import { defineValaxyConfig } from 'valaxy'
 export default defineValaxyConfig<UserThemeConfig>({
   theme: 'yun',
   siteConfig: {
-    url: 'https://komarichikaa.github.io/yomosugara-notes/',
+    url: 'https://komarichikaa.github.io/my-notes/',
   },
   vite: {
-    base: '/yomosugara-notes/',
+    base: '/my-notes/',
   },
   themeConfig: {
     colors: {
@@ -15,8 +15,8 @@ export default defineValaxyConfig<UserThemeConfig>({
     },
     bg_image: {
       enable: true,
-      url: '/yomosugara-notes/images/night-cg-background.webp',
-      dark: '/yomosugara-notes/images/night-cg-background.webp',
+      url: '/my-notes/images/night-cg-background.webp',
+      dark: '/my-notes/images/night-cg-background.webp',
       opacity: 0.28,
     },
     valaxyDarkOptions: {

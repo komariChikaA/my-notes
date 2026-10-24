@@ -4,7 +4,7 @@
     <header class="intro-card">
       <img class="avatar" src="/images/author-avatar.webp" alt="Guraぐら的头像">
       <p class="eyebrow">GURA'S MAD NOTES</p>
-      <h1>纸上与节拍之间</h1>
+      <h1>my-notes</h1>
       <p class="intro-copy">
         记录 MAD《夜もすがら君恋ふ》的分镜、技术尝试与制作想法，也为之后的作品留一页空白。
       </p>

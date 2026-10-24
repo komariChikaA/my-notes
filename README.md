@@ -1,4 +1,4 @@
-# 纸上与节拍之间
+# my-notes
 
 一个以 MAD、分镜与 Storybrew 制作为主题的轻量静态博客。文章以 Markdown 维护，Valaxy 负责静态生成，部署到 GitHub Pages。
 
@@ -26,7 +26,7 @@ pnpm serve
 
 推送到 `main` 会触发 `.github/workflows/gh-pages.yml`，构建后发布到 GitHub Pages。GitHub 仓库的 Pages 来源需要设置为 **GitHub Actions**。
 
-项目站点使用 `/yomosugara-notes/` 作为 Vite base path。
+项目站点使用 `/my-notes/` 作为 Vite base path。
 
 ## 图片说明
 
