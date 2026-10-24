@@ -1,0 +1,24 @@
+{
+  "name": "yomosugara-notes",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "valaxy build --ssg",
+    "dev": "valaxy",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "valaxy": "1.2.0",
+    "valaxy-theme-yun": "1.2.0",
+    "vue": "^3.5.41",
+    "vue-router": "^5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  }
+}
