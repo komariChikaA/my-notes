@@ -10,6 +10,7 @@ tags:
   - osu!
 cover: /images/storyboards/title-04.webp
 top: 1
+sidebar: false
 ---
 
 > **草稿｜** 这篇先把制作过程、技术细节和参考方向整理在一起。个人感受段落也是可以继续改写的初稿，之后会补上我自己的具体经历、取舍和最终观感。

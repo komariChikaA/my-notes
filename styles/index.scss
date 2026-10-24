@@ -1,17 +1,69 @@
 :root {
   color-scheme: light;
-  --mad-paper: #f7f4ed;
-  --mad-ink: #34362f;
-  --mad-muted: #77766f;
-  --mad-line: #e5dfd4;
-  --mad-rose: #c8767c;
-  --mad-blue: #6f9fa7;
-  --mad-yellow: #d2aa54;
+  --mad-paper: #edf4fc;
+  --mad-ink: #172746;
+  --mad-muted: #536a8c;
+  --mad-line: #d3e1f3;
+  --mad-accent: #286ad1;
+  --mad-blue: #286ad1;
+  --mad-rose: #766cbd;
+  --mad-yellow: #38a8d5;
+  --mad-card: rgb(247 250 255 / 94%);
+  --mad-card-soft: #dfeafa;
+  --mad-button: #f7faff;
+  --va-c-text: #172746;
+  --va-c-text-1: #172746;
+  --va-c-text-2: #435b7d;
+  --va-c-text-3: #5b7090;
+  --va-c-text-light: #435b7d;
+  --va-c-text-dark: #172746;
+  --va-c-bg: #edf4fc;
+  --va-c-bg-light: #f8fbff;
+  --va-c-bg-dark: #e5eef9;
+  --va-c-bg-opacity: rgb(247 250 255 / 94%);
+  --va-c-bg-soft: #e6effa;
+  --va-c-bg-alt: #e6effa;
+  --va-c-bg-mute: #dce8f6;
+  --va-c-bg-elevated: #f8fbff;
+  --va-c-divider: #d3e1f3;
+  --yun-bg-img-opacity: 0.28;
+}
+
+html.dark {
+  color-scheme: dark;
+  --mad-paper: #09152f;
+  --mad-ink: #e5efff;
+  --mad-muted: #b3c4df;
+  --mad-line: #344665;
+  --mad-accent: #86bbff;
+  --mad-blue: #8ac8ff;
+  --mad-rose: #c0adff;
+  --mad-yellow: #6bdcff;
+  --mad-card: rgb(8 20 48 / 92%);
+  --mad-card-soft: #102951;
+  --mad-button: #11264a;
+  --va-c-text: #e5efff;
+  --va-c-text-1: #e5efff;
+  --va-c-text-2: #c3d2e9;
+  --va-c-text-3: #a6bbd9;
+  --va-c-text-light: #c3d2e9;
+  --va-c-text-dark: #09152f;
+  --va-c-bg: #09152f;
+  --va-c-bg-light: #102347;
+  --va-c-bg-dark: #071128;
+  --va-c-bg-opacity: rgb(8 20 48 / 92%);
+  --va-c-bg-soft: #102347;
+  --va-c-bg-alt: #0b1a36;
+  --va-c-bg-mute: #193255;
+  --va-c-bg-elevated: #102347;
+  --va-c-divider: #344665;
+  --yun-bg-img-opacity: 0.22;
 }
 
 html,
 body {
-  background: var(--mad-paper);
+  min-height: 100%;
+  background: transparent !important;
   color: var(--mad-ink);
   scroll-behavior: auto !important;
 }
@@ -21,6 +73,10 @@ body {
 *::after {
   animation: none !important;
   transition: none !important;
+}
+
+.yun-bg {
+  background-attachment: scroll;
 }
 
 img {
@@ -37,6 +93,42 @@ a:hover {
   color: var(--mad-rose);
 }
 
+/* Keep the desktop icon navigation legible without changing the theme source. */
+.yun-nav-menu a[title="文章"],
+.yun-nav-menu a[title="归档"],
+.yun-nav-menu a[title="关于"] {
+  width: auto;
+  min-width: 3rem;
+  gap: 0.35rem;
+  padding-inline: 0.65rem;
+}
+
+.yun-nav-menu a[title="文章"]::after,
+.yun-nav-menu a[title="归档"]::after,
+.yun-nav-menu a[title="关于"]::after {
+  font-size: 0.82rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.yun-nav-menu a[title="文章"]::after { content: "文章"; }
+.yun-nav-menu a[title="归档"]::after { content: "归档"; }
+.yun-nav-menu a[title="关于"]::after { content: "关于"; }
+
+.yun-nav-menu .yun-toggle-dark {
+  width: auto;
+  min-width: 3rem;
+  gap: 0.35rem;
+  padding-inline: 0.65rem;
+}
+
+.yun-nav-menu .yun-toggle-dark::after {
+  content: "主题";
+  font-size: 0.82rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .storyboard-grid,
 .reference-grid {
   display: grid;
@@ -51,8 +143,8 @@ a:hover {
   margin: 0;
   padding: 0.65rem;
   border: 1px solid var(--mad-line);
-  border-radius: 0.45rem;
-  background: #fbfaf7;
+  border-radius: 0.65rem;
+  background: var(--mad-card);
 }
 
 .storyboard-grid img {
@@ -60,7 +152,7 @@ a:hover {
   width: 100%;
   max-height: 25rem;
   object-fit: contain;
-  background: #f0ece3;
+  background: var(--mad-card-soft);
 }
 
 .reference-grid img {
