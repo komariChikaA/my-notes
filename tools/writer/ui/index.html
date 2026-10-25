@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <a class="brand" href="/" aria-label="写作台首页"><img src="/images/author-avatar.webp" alt=""><span>纸上与节拍之间 <small>写作台</small></span></a>
-    <div class="top-actions"><button id="articles-button" class="quiet">文章</button><span class="local-badge">仅本地 · Markdown</span><button id="theme-button" class="quiet">切换明暗</button><button id="save-button" class="primary">保存 <kbd>Ctrl S</kbd></button></div>
+    <div class="top-actions"><button id="articles-button" class="quiet">文章</button><span class="local-badge">仅本地 · Markdown</span><button id="theme-button" class="quiet">切换明暗</button><button id="save-button">保存 <kbd>Ctrl S</kbd></button><button id="publish-button" class="primary" title="保存并发布所有文章与配图到 GitHub Pages">发布</button></div>
   </header>
 
   <main class="workspace">
@@ -24,6 +24,7 @@
     </aside>
 
     <section class="writing-panel" aria-label="正文编辑区">
+      <div id="publish-bar" class="publish-bar" role="status" hidden><span id="publish-status"></span><a id="publish-run" target="_blank" rel="noopener noreferrer" hidden>部署记录</a><a id="publish-site" target="_blank" rel="noopener noreferrer" hidden>查看博客 ↗</a></div>
       <div class="document-header">
         <p id="file-path" class="file-path">正在载入文章…</p>
         <input id="post-title" class="post-title" aria-label="文章标题" placeholder="给这篇文章起个名字">
@@ -47,7 +48,7 @@
       <div class="suggestions"><button data-suggestion="review">这一段怎么调整？</button><button data-suggestion="images">这里需要哪些图？</button><button data-suggestion="references">整理参考作品</button></div>
       <div id="chat-history" class="chat-history" aria-live="polite"><div class="chat-empty"><span>从一段话开始</span><p>可以讨论结构与表达，也可以让助手修改正文、寻找图片或整理参考。回复和任务会保存在本机。</p></div></div>
       <div id="task-progress" class="task-progress" hidden><span id="task-status" role="status"></span><button id="cancel-task-button" class="text-button">停止</button></div>
-      <form id="agent-form" class="agent-composer"><label class="mode-label" for="agent-mode">操作方式</label><select id="agent-mode"><option value="ask">只提问 · 不改文件</option><option value="edit">修改当前文章</option><option value="images">寻找 / 整理图片</option><option value="generate">生成配图</option></select><p id="mode-help" class="mode-help">结合当前文章和选区给建议。</p><textarea id="agent-question" rows="4" placeholder="比如：这一节应该放什么对比图？请给出图的位置和说明。" aria-label="向助手提问"></textarea><div class="compose-actions"><button id="copy-question-button" type="button" class="quiet" title="包含选区和问题，可粘贴到当前 Codex 聊天">复制给 Codex</button><button id="send-button" type="submit" class="primary">发送给助手 ↑</button></div><p class="composer-note">使用本机 Codex 登录。生成配图需要当前 Agent 具备图像工具；也可复制需求到本次 Codex 聊天。</p></form>
+      <form id="agent-form" class="agent-composer"><label class="mode-label" for="agent-mode">操作方式</label><select id="agent-mode"><option value="ask">只提问 · 不改文件</option><option value="edit">修改当前文章</option><option value="images">寻找 / 整理图片</option><option value="generate">生成配图</option></select><p id="mode-help" class="mode-help">结合当前文章和选区给建议。</p><textarea id="agent-question" rows="4" placeholder="比如：这一节应该放什么对比图？请给出图的位置和说明。" aria-label="向助手提问"></textarea><div class="compose-actions"><button id="copy-question-button" type="button" class="quiet" title="包含选区和问题，可粘贴到当前 Codex 聊天">复制给 Codex</button><button id="send-button" type="submit" class="primary">发送给助手 ↑</button></div><p class="composer-note">已启用完全访问，沿用本机 Codex 登录。生成配图需要当前 Agent 具备图像工具；也可复制需求到本次 Codex 聊天。</p></form>
     </aside>
   </main>
 

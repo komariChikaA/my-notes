@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id)
-const state = { post: null, posts: [], assets: [], dirty: false, conflict: false, saving: null, context: {}, history: [], taskId: null, polling: false, root: '', dark: false, previewVersion: 0 }
+const state = { post: null, posts: [], assets: [], dirty: false, conflict: false, saving: null, context: {}, history: [], taskId: null, polling: false, root: '', dark: false, previewVersion: 0, publishing: false, publishPolling: false }
 let saveTimer, previewTimer, contextTimer, toastTimer
 const modeNames = { ask: '提问', edit: '修改正文', images: '寻找 / 整理图片', generate: '生成配图' }
 const help = { ask: '结合当前文章和选区给建议，不修改文件。', edit: '助手会直接修改当前文章，完成后载入磁盘结果。', images: '助手可搜索来源或整理本地素材，图片保存到素材库。可在问题中附上素材路径。', generate: '调用当前 Agent 可用的图像工具。若 CLI 不支持，请用“复制给 Codex”发到本次聊天。' }
@@ -89,6 +89,7 @@ function changed() {
 async function save() {
   clearTimeout(saveTimer)
   if (!state.post || !state.dirty) return
+  if (state.publishing) throw new Error('正在发布，结束后可继续保存。')
   if (state.conflict) throw new Error('请先处理磁盘版本差异。')
   if (state.saving) { await state.saving; return save() }
   const file = state.post.path
@@ -264,6 +265,7 @@ async function pollTask() {
   state.polling = true
   $('task-progress').hidden = false
   $('send-button').disabled = true
+  $('publish-button').disabled = true
   try {
     while (state.taskId) {
       const task = await api(`/api/agent/tasks/${state.taskId}`)
@@ -285,7 +287,7 @@ async function pollTask() {
     }
   }
   catch (error) { toast(`任务连接中断：${error.message}。刷新页面可继续查看状态。`) }
-  finally { state.polling = false; $('task-progress').hidden = true; $('send-button').disabled = false }
+  finally { state.polling = false; $('task-progress').hidden = true; $('send-button').disabled = state.publishing; $('publish-button').disabled = state.publishing }
 }
 
 async function sendQuestion(event) {
@@ -410,7 +412,49 @@ async function connection() {
   if (status.activeTask && !state.taskId) { state.taskId = status.activeTask; pollTask() }
 }
 
+function renderPublication(task) {
+  const busy = task?.status === 'running'
+  state.publishing = busy
+  for (const id of ['editor', 'post-title', 'post-date', 'post-tags', 'post-categories', 'post-draft', 'save-button', 'new-button', 'library-button', 'insert-image-button', 'asset-upload']) $(id).disabled = busy
+  for (const button of document.querySelectorAll('[data-format]')) button.disabled = busy
+  $('publish-button').disabled = busy || state.polling
+  $('publish-button').textContent = busy ? '发布中…' : '发布'
+  $('send-button').disabled = busy || state.polling
+  $('publish-bar').hidden = !task
+  $('publish-status').textContent = task?.message || ''
+  $('publish-bar').classList.toggle('failed', task?.status === 'failed')
+  for (const [id, url] of [['publish-run', task?.runUrl], ['publish-site', task?.siteUrl]]) {
+    $(id).hidden = !url
+    if (url) $(id).href = url
+  }
+}
+
+async function pollPublication(task) {
+  if (state.publishPolling) return
+  state.publishPolling = true
+  try {
+    renderPublication(task)
+    while (task?.status === 'running') {
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      task = await api('/api/publish')
+      renderPublication(task)
+    }
+    if (task?.status === 'completed') toast('博客已发布，可以点击“查看博客”。')
+  } catch (error) { toast(`发布状态连接中断：${error.message}。刷新页面可继续查看。`) }
+  finally { state.publishPolling = false }
+}
+
+async function publishBlog() {
+  if (state.publishing || state.polling) return
+  $('publish-button').disabled = true
+  try {
+    await save()
+    await pollPublication(await api('/api/publish', { method: 'POST' }))
+  } catch (error) { $('publish-button').disabled = false; toast(error.message) }
+}
+
 $('save-button').onclick = () => save().then(() => toast('已保存到本地。')).catch(e => toast(e.message))
+$('publish-button').onclick = publishBlog
 $('theme-button').onclick = () => setTheme(!state.dark)
 $('new-button').onclick = newDialog
 $('articles-button').onclick = () => document.body.classList.toggle('show-articles')
@@ -448,7 +492,7 @@ document.querySelectorAll('[data-suggestion]').forEach(button => { button.onclic
 async function boot() {
   setTheme(localStorage.getItem('writer:theme') ? localStorage.getItem('writer:theme') === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches)
   try {
-    const [posts] = await Promise.all([api('/api/posts'), connection(), loadAssets()])
+    const [posts, , , publication] = await Promise.all([api('/api/posts'), connection(), loadAssets(), api('/api/publish')])
     state.posts = posts
     renderPosts()
     if (posts.length) {
@@ -456,6 +500,8 @@ async function boot() {
       await loadPost(posts.find(p => p.path === last)?.path || posts[0].path)
     }
     else { $('save-status').textContent = '创建第一篇文章即可开始'; newDialog() }
+    renderPublication(publication)
+    if (publication?.status === 'running') pollPublication(publication)
   }
   catch (error) { $('save-status').textContent = `载入失败：${error.message}`; toast(error.message) }
 }
