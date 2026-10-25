@@ -4,7 +4,7 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 
 const exec = promisify(execFile)
-const contentPath = file => file.startsWith('pages/') || file.startsWith('public/images/')
+const contentPath = file => file === '.valaxy/route-map.d.ts' || file.startsWith('pages/') || file.startsWith('public/images/')
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export async function createPublisher(root, stateDir) {
@@ -49,7 +49,7 @@ export async function createPublisher(root, stateDir) {
         ? await command('cmd.exe', ['/d', '/s', '/c', 'pnpm build'], 300000)
         : await command('pnpm', ['build'], 300000)
       await fs.writeFile(path.join(stateDir, 'publish-build.log'), output, 'utf8')
-      await command('git', ['add', '--', 'pages', 'public/images'])
+      await command('git', ['add', '--', 'pages', 'public/images', '.valaxy/route-map.d.ts'])
       const staged = await command('git', ['diff', '--cached', '--name-only', '-z'])
       const outside = staged.split('\0').filter(file => file && !contentPath(file))
       if (outside.length) throw new Error('暂存区包含文章和图片以外的文件，已停止发布。')
