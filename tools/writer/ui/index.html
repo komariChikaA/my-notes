@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>写作台 · my-notes</title>
+  <link rel="icon" href="/images/author-avatar.webp">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="写作台首页"><img src="/images/author-avatar.webp" alt=""><span>纸上与节拍之间 <small>写作台</small></span></a>
+    <div class="top-actions"><button id="articles-button" class="quiet">文章</button><span class="local-badge">仅本地 · Markdown</span><button id="theme-button" class="quiet">切换明暗</button><button id="save-button">保存 <kbd>Ctrl S</kbd></button><button id="publish-button" class="primary" title="保存并发布所有文章与配图到 GitHub Pages">发布</button></div>
+  </header>
+
+  <main class="workspace">
+    <aside class="articles-panel" aria-label="文章列表">
+      <div class="panel-title"><h2>我的文章</h2><button id="new-button" class="icon-button" aria-label="新建文章" title="新建文章">＋</button></div>
+      <input id="article-search" class="search" type="search" placeholder="搜索标题或文件名" aria-label="搜索文章">
+      <nav id="article-list" class="article-list" aria-label="选择文章"></nav>
+      <div class="library-entry"><button id="library-button" class="wide">图片素材库 <span id="asset-count"></span></button><p>拖入或粘贴图片到正文即可插入。</p></div>
+      <div class="repo-location"><span>本地文件夹</span><code id="repo-path"></code></div>
+    </aside>
+
+    <section class="writing-panel" aria-label="正文编辑区">
+      <div id="publish-bar" class="publish-bar" role="status" hidden><span id="publish-status"></span><a id="publish-run" target="_blank" rel="noopener noreferrer" hidden>部署记录</a><a id="publish-site" target="_blank" rel="noopener noreferrer" hidden>查看博客 ↗</a></div>
+      <div class="document-header">
+        <p id="file-path" class="file-path">正在载入文章…</p>
+        <input id="post-title" class="post-title" aria-label="文章标题" placeholder="给这篇文章起个名字">
+        <div class="document-tools">
+          <details class="metadata"><summary>文章信息</summary><div class="metadata-fields"><label>日期<input id="post-date" type="date"></label><label>标签（逗号分隔）<input id="post-tags" placeholder="Storybrew, 分镜"></label><label>分类（逗号分隔）<input id="post-categories" placeholder="MAD制作"></label><label class="check"><input id="post-draft" type="checkbox">草稿，构建时暂不发布</label></div></details>
+          <div class="view-switch" role="group" aria-label="编辑视图"><button data-view="write">写作</button><button data-view="split" class="selected">分屏</button><button data-view="preview">预览</button></div>
+        </div>
+      </div>
+      <div id="conflict-banner" class="conflict-banner" hidden><p id="conflict-text"></p><div><button id="reload-button">载入磁盘版本</button><button id="recover-button">当前内容另存草稿</button></div></div>
+      <div class="format-toolbar" role="toolbar" aria-label="Markdown 格式"><button data-format="heading">H2 <span>小节</span></button><button data-format="bold"><b>B</b> <span>加粗</span></button><button data-format="quote">“ <span>引用</span></button><button data-format="link">↗ <span>链接</span></button><button data-format="code">&lt;/&gt; <span>代码</span></button><button id="insert-image-button">▧ <span>插入图片</span></button><span class="toolbar-hint">选中文字，再问右侧助手</span></div>
+      <div id="editor-panes" class="editor-panes split">
+        <div class="source-pane"><label for="editor" class="pane-label">MARKDOWN</label><textarea id="editor" spellcheck="false" placeholder="从这里开始写。用 ## 开始一个小节。" aria-label="Markdown 正文"></textarea></div>
+        <div class="preview-pane"><div class="pane-label">阅读预览 <span>正文排版</span></div><iframe id="preview" title="文章阅读预览" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+      </div>
+      <footer class="editor-status"><span id="save-status" role="status">正在载入…</span><span id="word-count"></span></footer>
+    </section>
+
+    <aside class="agent-panel" aria-label="Agent 写作助手">
+      <div class="panel-title"><div><h2>写作助手</h2><p id="agent-connection" class="connection">检查本机 Codex…</p></div><button id="refresh-connection" class="icon-button" aria-label="刷新助手连接" title="刷新连接">↻</button></div>
+      <div class="context-card"><div class="context-label">正在讨论 <button id="clear-selection" class="text-button" hidden>取消选区</button></div><strong id="context-heading">全文</strong><p id="context-selection">在正文中选中文字，可只讨论这一段。</p><div class="context-foot"><span id="context-lines">正文第 1 行</span><button id="copy-context-button" class="text-button">复制上下文</button></div></div>
+      <div class="suggestions"><button data-suggestion="review">这一段怎么调整？</button><button data-suggestion="images">这里需要哪些图？</button><button data-suggestion="references">整理参考作品</button></div>
+      <div id="chat-history" class="chat-history" aria-live="polite"><div class="chat-empty"><span>从一段话开始</span><p>可以讨论结构与表达，也可以让助手修改正文、寻找图片或整理参考。回复和任务会保存在本机。</p></div></div>
+      <div id="task-progress" class="task-progress" hidden><span id="task-status" role="status"></span><button id="cancel-task-button" class="text-button">停止</button></div>
+      <form id="agent-form" class="agent-composer"><label class="mode-label" for="agent-mode">操作方式</label><select id="agent-mode"><option value="ask">只提问 · 不改文件</option><option value="edit">修改当前文章</option><option value="images">寻找 / 整理图片</option><option value="generate">生成配图</option></select><p id="mode-help" class="mode-help">结合当前文章和选区给建议。</p><textarea id="agent-question" rows="4" placeholder="比如：这一节应该放什么对比图？请给出图的位置和说明。" aria-label="向助手提问"></textarea><div class="compose-actions"><button id="copy-question-button" type="button" class="quiet" title="包含选区和问题，可粘贴到当前 Codex 聊天">复制给 Codex</button><button id="send-button" type="submit" class="primary">发送给助手 ↑</button></div><p class="composer-note">已启用完全访问，沿用本机 Codex 登录。生成配图需要当前 Agent 具备图像工具；也可复制需求到本次 Codex 聊天。</p></form>
+    </aside>
+  </main>
+
+  <dialog id="new-dialog"><form id="new-form"><div class="dialog-header"><h2>新建一篇文章</h2><button type="button" data-close="new-dialog" class="icon-button" aria-label="关闭">×</button></div><label>标题<input id="new-title" required placeholder="这一次想记录什么？"></label><label>文件名<input id="new-slug" required pattern="[a-z0-9][a-z0-9\-]{0,79}" placeholder="my-next-mad"></label><p class="subtle">保存在 pages/posts/，初始为草稿。</p><p id="new-error" class="error" role="alert"></p><button type="submit" class="primary wide">创建并开始写</button></form></dialog>
+  <dialog id="asset-dialog" class="asset-dialog"><div class="dialog-header"><div><h2>图片素材库</h2><p class="subtle">插入到正文光标处，原有素材可直接复用。</p></div><button data-close="asset-dialog" class="icon-button" aria-label="关闭">×</button></div><div class="asset-tools"><input id="asset-search" type="search" placeholder="搜索图片文件名或目录" aria-label="搜索图片"><label class="upload-label">上传图片<input id="asset-upload" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" multiple hidden></label></div><div id="asset-grid" class="asset-grid"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
