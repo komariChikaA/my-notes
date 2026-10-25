@@ -1,7 +1,7 @@
 ---
-title: "把一首歌折成许多张纸：《夜もすがら君恋ふ》MAD 制作记录"
-date: 2026-10-25
-updated: 2026-10-25
+title: 初作 静止系MAD 《夜もすがら君恋ふ》 制作记录
+date: '2026-10-25'
+updated: 2026-10-25T00:00:00.000Z
 categories:
   - MAD制作
 tags:
@@ -13,77 +13,208 @@ top: 1
 sidebar: false
 ---
 
-> **草稿｜** 这篇先把制作过程、技术细节和参考方向整理在一起。个人感受段落也是可以继续改写的初稿，之后会补上我自己的具体经历、取舍和最终观感。
+一直想自己做一个静止系MAD，但是苦于自己设备的限制，以及自己技术力的一些限制，还有学习的一些兴致，我没能做成。终于在一个月前我重新回归，终于搓出了这个 MAD 。
 
-这次 MAD 作品名是《夜もすがら君恋ふ》，使用歌曲是 TOKOTOKO（西沢さんP）的《夜もすがら君想ふ》。制作时我一直在想：如果把一首歌看作一叠纸，节拍、歌词、角色和场景要怎样一页一页地翻过去，才会像同一段记忆，而不是许多效果拼起来？所以我把暖白纸面、浅粉和浅蓝、彩色几何形状，以及清晰的角色画面放在同一套视觉语言里。希望画面有一点印刷物的轻盈感，同时仍然跟着音乐向前走。
+这次 MAD 作品名是《夜もすがら君恋ふ》，原因呢就是我想给我老婆乙原恋做个 MAD ，选曲是西沢P的《夜もすがら君想ふ》，那刚好直接就差不多了。
 
-下面这些图大多是 Storybrew 分镜预览联系图。它们保留了构图和时间上的变化，方便回看每一段是如何从想法走到当前版本；单张图里的一格就是一个采样时刻。
+-----------------
 
-## 先让标题像一张纸被印出来
+稍微介绍一下我的制作工具：
 
-开头的标题用明亮的彩色字形和小圆点建立整支 MAD 的基调。标题本身保持克制，把变化留给圆点、字色和大块斜面；交接到下一镜时，则让同一张“纸”继续收小、转场，尽量避免突然换一套空间规则。
+首先我放弃了ae，主要原因是我电脑的ae版本和插件的一些问题，也有一部分原因是对于熟悉pr的我而言，ae有点难上手，我感觉学起来还是比较难的，不过最重要的还有就是我的设备太垃圾了——实在太垃圾了，显存只有6GB，开个ae2020卡顿的不成人形；
 
-<div class="storyboard-grid">
-<figure><img src="/images/storyboards/title-01.webp" alt="标题分镜联系图一" loading="lazy" decoding="async"><figcaption>标题从留白里出现：字组、圆点和间距先确定下来。</figcaption></figure>
-<figure><img src="/images/storyboards/title-02.webp" alt="标题分镜联系图二" loading="lazy" decoding="async"><figcaption>圆点和色彩逐步加入，让视觉重心随音乐展开。</figcaption></figure>
-<figure><img src="/images/storyboards/title-03.webp" alt="标题分镜联系图三" loading="lazy" decoding="async"><figcaption>斜向色块经过标题，亮面与底纸之间留出清晰层次。</figcaption></figure>
-<figure><img src="/images/storyboards/title-04.webp" alt="标题分镜联系图四" loading="lazy" decoding="async"><figcaption>标题停留后逐渐收束，为后面的记忆段落让出空间。</figcaption></figure>
-<figure><img src="/images/storyboards/title-05.webp" alt="标题分镜联系图五" loading="lazy" decoding="async"><figcaption>同一组字形在停留镜头中继续承担视觉锚点。</figcaption></figure>
-</div>
+接下来我选用了storybrew，这相当于是一个osu制作storyboard的工具，实际上你需要管理的就是一堆C#代码，所以我感觉对于我agent辅助等方法也是比较合适的一个方法，同时还能用git版本管理，还有就是storybrew的预览不卡（这个原因不细讲了）；
 
-## 角色镜头：动的部分少一点，焦点更明确
+后面为了做3d段、木偶段，我用了godot，这个其实是一个游戏引擎，但是它的2d和3d可以作为普通的引擎使用。在这次制作过程中我就逐步尝试用storybrew和godot去实现一些画面。
 
-角色段落里，背景形状、人物位置和卡片边界需要一起排。联系图方便检查的是相邻时刻有没有“突然挤”或“突然空”，而不只是哪一帧好看。角色仍是画面的主体，背景色块服务于她的出场和歌词节奏。
 
-<div class="storyboard-grid">
-<figure><img src="/images/storyboards/character-01.webp" alt="角色段落分镜联系图一" loading="lazy" decoding="async"><figcaption>角色与几何背景的初始关系。</figcaption></figure>
-<figure><img src="/images/storyboards/character-02.webp" alt="角色段落分镜联系图二" loading="lazy" decoding="async"><figcaption>角色站位和局部色块随段落节拍变化。</figcaption></figure>
-<figure><img src="/images/storyboards/character-03.webp" alt="角色段落分镜联系图三" loading="lazy" decoding="async"><figcaption>退场时仍保留整组版式的秩序。</figcaption></figure>
-<figure><img src="/images/storyboards/character-04.webp" alt="角色段落分镜联系图四" loading="lazy" decoding="async"><figcaption>末段标题再次出现，回到全片统一的色彩系统。</figcaption></figure>
-</div>
+---------------
 
-## 把“记起来”做成连续的画面
+下面按这 13 个分镜整理制作记录。配图取自当前成片，图注标出实际截帧时间；歌词、镜头设计和制作思路留待继续补写。
 
-Secret Base / Memory 一段大约从 14.5 秒延伸到 26.6 秒。这里我想表达的不是单纯的“照片出现”，而是从标题散开、镜头下移，到画面慢慢变成一张被保存下来的相纸。底色保持暖白，边缘使用奶油色和淡蓝绿色；照片、文字和装饰都尽量不抢彼此的阅读顺序。
+## 分镜一：标题出场+书架滚动页（0:00–0:07）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
 
 <div class="storyboard-grid">
-<figure><img src="/images/storyboards/memory-01.webp" alt="Memory 分镜联系图一" loading="lazy" decoding="async"><figcaption>标题与圆点的余韵转入记忆镜头。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-02.webp" alt="Memory 分镜联系图二" loading="lazy" decoding="async"><figcaption>镜头向下寻找接下来的画面。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-03.webp" alt="Memory 分镜联系图三" loading="lazy" decoding="async"><figcaption>过渡阶段只留下必要的形状和方向。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-04.webp" alt="Memory 分镜联系图四" loading="lazy" decoding="async"><figcaption>照片区域和纸面开始建立关系。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-05.webp" alt="Memory 分镜联系图五" loading="lazy" decoding="async"><figcaption>先保证主体完整，再把装饰放到外围。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-06.webp" alt="Memory 分镜联系图六" loading="lazy" decoding="async"><figcaption>新的照片页接入，颜色和边距继续统一。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-07.webp" alt="Memory 分镜联系图七" loading="lazy" decoding="async"><figcaption>镜头从单张回忆扩展到连续的相册页面。</figcaption></figure>
-<figure><img src="/images/storyboards/memory-08.webp" alt="Memory 分镜联系图八" loading="lazy" decoding="async"><figcaption>这一段的最终构图与下一段入口相接。</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-01-01.webp" alt="分镜一：标题出场+书架滚动页，成片 0:03.50 截帧" loading="lazy" decoding="async"><figcaption>标题出场+书架滚动页 · 成片 0:03.50</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-01-02.webp" alt="分镜一：标题出场+书架滚动页，成片 0:06.50 截帧" loading="lazy" decoding="async"><figcaption>标题出场+书架滚动页 · 成片 0:06.50</figcaption></figure>
 </div>
 
-这部分最费心的地方，是既要让每页有自己的记忆内容，又不能让连续镜头看起来像互不相关的卡片。重复使用纸边、配色和页间留白，正好让画面产生“翻页”的感觉。具体停留时长和镜头动作仍要在歌里检查；一张联系图只能说明构图如何变化，不能替代完整播放的节奏判断。
+## 分镜二：人物出场+卡片页（0:08–0:12）
 
-## 剪辑和道具镜头：把信息放在观众来得及看的地方
-
-桥段的蒙太奇需要处理的是剪切、字幕、焦点和乐器节拍之间的关系；手机与照片镜头则要让画面里几个小元素共同指向一个主体。下面的联系图保留了一整段里的相邻采样，适合比较景别、方向和留白怎样接力。
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
 
 <div class="storyboard-grid">
-<figure><img src="/images/storyboards/bridge-01.webp" alt="桥段蒙太奇分镜一" loading="lazy" decoding="async"><figcaption>桥段图像开始出现，先给观众时间读清主体。</figcaption></figure>
-<figure><img src="/images/storyboards/bridge-02.webp" alt="桥段蒙太奇分镜二" loading="lazy" decoding="async"><figcaption>用剪辑和局部变化组织音乐起伏。</figcaption></figure>
-<figure><img src="/images/storyboards/bridge-03.webp" alt="桥段蒙太奇分镜三" loading="lazy" decoding="async"><figcaption>切换景别时保持明确的视觉方向。</figcaption></figure>
-<figure><img src="/images/storyboards/bridge-04.webp" alt="桥段蒙太奇分镜四" loading="lazy" decoding="async"><figcaption>收尾留出呼吸，让后续段落有进入空间。</figcaption></figure>
-<figure><img src="/images/storyboards/phone-01.webp" alt="手机与照片镜头分镜一" loading="lazy" decoding="async"><figcaption>手机、相片和桌面构成同一个小场景。</figcaption></figure>
-<figure><img src="/images/storyboards/phone-02.webp" alt="手机与照片镜头分镜二" loading="lazy" decoding="async"><figcaption>镜头靠近主体后，场景里不需要的细节就退到后面。</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-02-01.webp" alt="分镜二：人物出场+卡片页，成片 0:10.30 截帧" loading="lazy" decoding="async"><figcaption>人物出场+卡片页 · 成片 0:10.30</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-02-02.webp" alt="分镜二：人物出场+卡片页，成片 0:11.50 截帧" loading="lazy" decoding="async"><figcaption>人物出场+卡片页 · 成片 0:11.50</figcaption></figure>
 </div>
 
-## 小范围的画面修整
+## 分镜三：印刷板（0:13–0:18）
 
-联系图之外，也保留了一些局部前后对照。比如眼部闭合形态，要先让静止轮廓自然，再谈运动；头发遮挡修复则要确保原画线条仍然连贯。对比图适合记录具体修正，不代表整支视频的最终视觉验收。
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-03-01.webp" alt="分镜三：印刷板，成片 0:14.00 截帧" loading="lazy" decoding="async"><figcaption>印刷板 · 成片 0:14.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-03-02.webp" alt="分镜三：印刷板，成片 0:17.80 截帧" loading="lazy" decoding="async"><figcaption>印刷板 · 成片 0:17.80</figcaption></figure>
+</div>
+
+## 分镜四：相册滑动（0:19–0:27）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-04-01.webp" alt="分镜四：相册滑动，成片 0:20.00 截帧" loading="lazy" decoding="async"><figcaption>相册滑动 · 成片 0:20.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-04-02.webp" alt="分镜四：相册滑动，成片 0:25.50 截帧" loading="lazy" decoding="async"><figcaption>相册滑动 · 成片 0:25.50</figcaption></figure>
+</div>
+
+## 分镜五：3D地图部分（0:28–0:39）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-05-01.webp" alt="分镜五：3D地图部分，成片 0:29.00 截帧" loading="lazy" decoding="async"><figcaption>3D地图部分 · 成片 0:29.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-05-02.webp" alt="分镜五：3D地图部分，成片 0:37.00 截帧" loading="lazy" decoding="async"><figcaption>3D地图部分 · 成片 0:37.00</figcaption></figure>
+</div>
+
+## 分镜六：摆放场景+歌词（0:40–0:49）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-06-01.webp" alt="分镜六：摆放场景+歌词，成片 0:42.00 截帧" loading="lazy" decoding="async"><figcaption>摆放场景+歌词 · 成片 0:42.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-06-02.webp" alt="分镜六：摆放场景+歌词，成片 0:47.00 截帧" loading="lazy" decoding="async"><figcaption>摆放场景+歌词 · 成片 0:47.00</figcaption></figure>
+</div>
+
+## 分镜七：硬切回忆（0:50–0:52）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-07-01.webp" alt="分镜七：硬切回忆，成片 0:50.30 截帧" loading="lazy" decoding="async"><figcaption>硬切回忆 · 成片 0:50.30</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-07-02.webp" alt="分镜七：硬切回忆，成片 0:51.60 截帧" loading="lazy" decoding="async"><figcaption>硬切回忆 · 成片 0:51.60</figcaption></figure>
+</div>
+
+## 分镜八：副歌首段放置一下立绘（0:53–0:59）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-08-01.webp" alt="分镜八：副歌首段放置一下立绘，成片 0:54.00 截帧" loading="lazy" decoding="async"><figcaption>副歌首段放置一下立绘 · 成片 0:54.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-08-02.webp" alt="分镜八：副歌首段放置一下立绘，成片 0:58.00 截帧" loading="lazy" decoding="async"><figcaption>副歌首段放置一下立绘 · 成片 0:58.00</figcaption></figure>
+</div>
+
+## 分镜九：照片转房间+短信发送（1:00–1:05）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-09-01.webp" alt="分镜九：照片转房间+短信发送，成片 1:00.50 截帧" loading="lazy" decoding="async"><figcaption>照片转房间+短信发送 · 成片 1:00.50</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-09-02.webp" alt="分镜九：照片转房间+短信发送，成片 1:04.00 截帧" loading="lazy" decoding="async"><figcaption>照片转房间+短信发送 · 成片 1:04.00</figcaption></figure>
+</div>
+
+## 分镜十：木偶+运镜（1:06–1:18）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-10-01.webp" alt="分镜十：木偶+运镜，成片 1:07.00 截帧" loading="lazy" decoding="async"><figcaption>木偶+运镜 · 成片 1:07.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-10-02.webp" alt="分镜十：木偶+运镜，成片 1:15.00 截帧" loading="lazy" decoding="async"><figcaption>木偶+运镜 · 成片 1:15.00</figcaption></figure>
+</div>
+
+### 局部修整与前后对照
+
+- 对应镜头 / 修整原因：待补。
+- 眼部、头发遮挡等处理过程：待补。
 
 <div class="storyboard-grid">
 <figure><img src="/images/eye-repair.webp" alt="眼部遮挡修复前后对比" loading="lazy" decoding="async"><figcaption>遮挡修复前后：补足头发移动后露出的底层区域。</figcaption></figure>
 <figure><img src="/images/eye-reference.webp" alt="眼部组件与修整对照" loading="lazy" decoding="async"><figcaption>眼部局部对照：轮廓、遮罩和原画线条需要一起检查。</figcaption></figure>
 </div>
 
-## 我看过的 MAD 参考
+## 分镜十一：樱花段（1:19–1:29）
 
-这些作品帮助我记下的是“为什么这段成立”，不是照搬某一种纹理或转场。比如《from Blue》让我注意到眨眼时轮廓应当干净、动作不必夸张；《StickSuger》和《Lemonade Stick》让我重新看段落主体、几何窗口和色块比例；《Your life is your own》和《I》则可以继续观察人物与文字如何在一页里安排主次。缩略图是原站视频封面，点击作品名可到原视频；画面版权属于各自作者，这里只用于制作分析和来源记录。
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-11-01.webp" alt="分镜十一：樱花段，成片 1:20.00 截帧" loading="lazy" decoding="async"><figcaption>樱花段 · 成片 1:20.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-11-02.webp" alt="分镜十一：樱花段，成片 1:27.00 截帧" loading="lazy" decoding="async"><figcaption>樱花段 · 成片 1:27.00</figcaption></figure>
+</div>
+
+## 分镜十二：结算界面（1:30–1:44）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-12-01.webp" alt="分镜十二：结算界面，成片 1:32.00 截帧" loading="lazy" decoding="async"><figcaption>结算界面 · 成片 1:32.00</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-12-02.webp" alt="分镜十二：结算界面，成片 1:41.00 截帧" loading="lazy" decoding="async"><figcaption>结算界面 · 成片 1:41.00</figcaption></figure>
+</div>
+
+## 分镜十三：尾杀（1:45–1:46）
+
+- 对应歌词：待补。
+- 画面内容与构图：待补。
+- 镜头运动 / 节奏 / 转场：待补。
+- 制作思路与灵感来源：待补。
+- 制作过程与修改记录：待补。
+
+<div class="storyboard-grid">
+<figure><img src="/images/storyboards/timeline/shot-13-01.webp" alt="分镜十三：尾杀，成片 1:45.30 截帧" loading="lazy" decoding="async"><figcaption>尾杀 · 成片 1:45.30</figcaption></figure>
+<figure><img src="/images/storyboards/timeline/shot-13-02.webp" alt="分镜十三：尾杀，成片 1:46.00 截帧" loading="lazy" decoding="async"><figcaption>尾杀 · 成片 1:46.00</figcaption></figure>
+</div>
+
+<details>
+<summary>参考作品资料（待对应到具体分镜）</summary>
+
+保留以下参考作品的封面、作者与原视频链接，具体借鉴之处待按分镜补充。缩略图为原站视频封面，画面版权属于各自作者，仅用于制作分析和来源记录。
 
 <div class="reference-grid">
 <figure><a href="https://www.bilibili.com/video/BV1rR4y1N7q4" target="_blank" rel="noreferrer"><img src="/images/from-blue.webp" alt="from Blue 视频封面" loading="lazy" decoding="async"></a><figcaption><a href="https://www.bilibili.com/video/BV1rR4y1N7q4" target="_blank" rel="noreferrer">《from Blue》</a><br>LiENRean · 眨眼动作与线条克制</figcaption></figure>
@@ -92,6 +223,8 @@ Secret Base / Memory 一段大约从 14.5 秒延伸到 26.6 秒。这里我想�
 <figure><a href="https://www.bilibili.com/video/BV1RWjA6GEio" target="_blank" rel="noreferrer"><img src="/images/lemonade-stick.webp" alt="Lemonade Stick 视频封面" loading="lazy" decoding="async"></a><figcaption><a href="https://www.bilibili.com/video/BV1RWjA6GEio" target="_blank" rel="noreferrer">《Lemonade Stick》</a><br>朝奈 / LiENRean 转载 · 几何色块与层次</figcaption></figure>
 <figure><a href="https://www.bilibili.com/video/BV13g411t7R4" target="_blank" rel="noreferrer"><img src="/images/i-mad.webp" alt="I 静止画MAD 视频封面" loading="lazy" decoding="async"></a><figcaption><a href="https://www.bilibili.com/video/BV13g411t7R4" target="_blank" rel="noreferrer">《I》</a><br>LiENRean · 文字与情绪的关系</figcaption></figure>
 </div>
+
+</details>
 
 ## 技术记录：从 Storybrew 到可播放的全片
 
